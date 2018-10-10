@@ -5,15 +5,15 @@ import os.path
 class mastodon_follow():
 	def __init__( self ):
 
-		userdata = ""
-		with open('acpwd.txt', 'r') as f:
-			userdata = f.read().replace('\n', '')
-			userdata = userdata.split(',')
+		# userdata = ""
+		# with open('acpwd.txt', 'r') as f:
+		#	userdata = f.read().replace('\n', '')
+		# 	userdata = userdata.split(',')
 
-		self.account = userdata[0]
-		self.password = userdata[1]
-		self.domain = userdata[2]
-		self.tootit = userdata[3].upper()
+		# self.account = userdata[0]
+		# self.password = userdata[1]
+		# self.domain = userdata[2]
+		# self.tootit = userdata[3].upper()
 		try:
 			print(os.path.isfile("app.secret"))
 			if not os.path.isfile("app.secret"):
@@ -46,12 +46,12 @@ class mastodon_follow():
 	def follow_someone( self, target ):
 		domain_less = re.sub(r"http[s]?://", "", self.domain)
 		try:
-			if self.tootit == "TRUE":
+			if self.tootit:
 				self.mastodon.toot('I follow @{}@{} by QuickFollower, which made by @h4ru75uk1@pawoo.net'.format(target[1], target[0]))
 			if target[0] == domain_less:
 				self.mastodon.follows(target[1])
 			else:
 				self.mastodon.follows('{}@{}'.format(target[1], target[0]))
 		except Exception as e:
-			if self.tootit == "TRUE":
+			if self.tootit:
 				self.mastodon.toot('[Warning] Exception Event: {} | Follow Failed: {}@{}'.format(e, target[1], target[0]))
